@@ -6,17 +6,17 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.easyrecipie.databinding.PopularItemBinding
-import com.example.easyrecipie.models.CategoryMeals
+import com.example.easyrecipie.models.MealsByCategory
 
 class MostPopularAdapter :RecyclerView.Adapter<MostPopularAdapter.PopularMealViewHolder>() {
 
     class PopularMealViewHolder(val binding:PopularItemBinding):RecyclerView.ViewHolder(binding.root)
 
-    private var oldMealsList = emptyList<CategoryMeals>()
+    private var oldMealsList = emptyList<MealsByCategory>()
 
-    lateinit var OnItemClick : ((CategoryMeals)->Unit)
+    lateinit var OnItemClick : ((MealsByCategory)->Unit)
 
-    fun setMeals(newMealsList : List<CategoryMeals>){
+    fun setMeals(newMealsList : List<MealsByCategory>){
         val diffUtil = MyDiffUtil(oldMealsList,newMealsList)
         val diffResults = DiffUtil.calculateDiff(diffUtil)
         oldMealsList=newMealsList

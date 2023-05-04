@@ -1,11 +1,11 @@
 package com.example.easyrecipie.adapters
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.easyrecipie.models.CategoryMeals
+import com.example.easyrecipie.models.MealsByCategory
 
 class MyDiffUtil (
-    private var oldList : List<CategoryMeals>,
-    private var newList : List<CategoryMeals>
+    private var oldList : List<MealsByCategory>,
+    private var newList : List<MealsByCategory>
         ):DiffUtil.Callback(){
     override fun getOldListSize(): Int {
         return oldList.size
