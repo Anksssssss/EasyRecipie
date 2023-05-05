@@ -18,6 +18,7 @@ import com.example.easyrecipie.activities.MealActivity
 import com.example.easyrecipie.adapters.CategoriesAdapter
 import com.example.easyrecipie.adapters.MostPopularAdapter
 import com.example.easyrecipie.databinding.FragmentHomeBinding
+import com.example.easyrecipie.fragments.bottomsheet.MealBottomSheetFragment
 import com.example.easyrecipie.models.Meal
 import com.example.easyrecipie.viewModel.HomeViewModel
 
@@ -73,6 +74,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         observeCategoryList()
         onCategoryClick()
 
+        onPopularItemLongClick()
+
+    }
+
+    private fun onPopularItemLongClick() {
+        popularItemsAdapter.onLongItemClick = { meal->
+            val mealBottomSheetFragment = MealBottomSheetFragment.newInstance(meal.idMeal)
+            mealBottomSheetFragment.show(childFragmentManager,"Meal Info")
+        }
     }
 
     private fun onCategoryClick() {

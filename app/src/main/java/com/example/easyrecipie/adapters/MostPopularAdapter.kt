@@ -16,6 +16,8 @@ class MostPopularAdapter :RecyclerView.Adapter<MostPopularAdapter.PopularMealVie
 
     lateinit var OnItemClick : ((MealsByCategory)->Unit)
 
+    var onLongItemClick : ((MealsByCategory)->Unit)?=null
+
     fun setMeals(newMealsList : List<MealsByCategory>){
         val diffUtil = MyDiffUtil(oldMealsList,newMealsList)
         val diffResults = DiffUtil.calculateDiff(diffUtil)
@@ -38,6 +40,11 @@ class MostPopularAdapter :RecyclerView.Adapter<MostPopularAdapter.PopularMealVie
 
         holder.itemView.setOnClickListener {
             OnItemClick.invoke(oldMealsList[position])
+        }
+
+        holder.itemView.setOnLongClickListener {
+            onLongItemClick?.invoke(oldMealsList[position])
+            true
         }
     }
 }

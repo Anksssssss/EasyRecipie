@@ -4,9 +4,11 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.easyrecipie.api.RetrofitInstance
 import com.example.easyrecipie.database.MealDatabase
 import com.example.easyrecipie.models.*
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -19,6 +21,7 @@ class HomeViewModel(
     private var popularItemsLiveData = MutableLiveData<List<MealsByCategory>>()
     private var categoryListLiveData = MutableLiveData<List<Category>>()
     private var favoriteMealsLiveData = mealDatabase.mealDao().getAllMeals()
+    private var bottomSheetMealLiveData = MutableLiveData<Meal>()
 
     fun getRandomMeal(){
         RetrofitInstance.api.getRandomMeal().enqueue(object:Callback<MealList>{
@@ -66,6 +69,21 @@ class HomeViewModel(
         })
     }
 
+    fun getMealById(id:String){
+        RetrofitInstance.api.getMealDetailsById(id).enqueue(object : Callback<MealList>{
+            override fun onResponse(call: Call<MealList>, response: Response<MealList>) {
+                val meal = response.body()?.meals?.first()
+                meal?.let { meal->
+                    bottomSheetMealLiveData.postValue(meal)
+                }
+            }
+
+            override fun onFailure(call: Call<MealList>, t: Throwable) {
+                Log.d("HomeViewModel",t.message.toString())
+            }
+        })
+    }
+
     fun observeRandomMealLiveData():LiveData<Meal>{
         return randomMealLiveData
     }
@@ -80,6 +98,22 @@ class HomeViewModel(
 
     fun observeFavoriteMealsLiveData():LiveData<List<Meal>>{
         return favoriteMealsLiveData
+    }
+
+    fun observeGetMealsByIdLiveData():LiveData<Meal>{
+        return bottomSheetMealLiveData
+    }
+
+    fun deleteMeal(meal:Meal){
+        viewModelScope.launch {
+            mealDatabase.mealDao().delete(meal)
+        }
+    }
+
+    fun insertMeal(meal:Meal){
+        viewModelScope.launch {
+            mealDatabase.mealDao().insertMeal(meal)
+        }
     }
 
 }
