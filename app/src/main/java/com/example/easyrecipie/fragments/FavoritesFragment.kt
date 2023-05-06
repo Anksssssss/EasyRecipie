@@ -51,7 +51,7 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
         val itemTouchHelper = object : ItemTouchHelper.SimpleCallback(
             ItemTouchHelper.UP or ItemTouchHelper.DOWN,
             ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-        ){
+        ) {
             override fun onMove(
                 recyclerView: RecyclerView,
                 viewHolder: RecyclerView.ViewHolder,
@@ -62,14 +62,14 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val position = viewHolder.adapterPosition
+                val meal = favoriteAdapter.differ.currentList[position]
                 viewModel.deleteMeal(favoriteAdapter.differ.currentList[position])
-
-                Snackbar.make(requireView(),"Meal Deleted",Snackbar.LENGTH_LONG).setAction(
-                    "Undo",
-                    View.OnClickListener {
-                        viewModel.insertMeal(favoriteAdapter.differ.currentList[position])
+                Snackbar.make(requireView(), "Meal Deleted", Snackbar.LENGTH_LONG).apply {
+                    setAction("Undo") {
+                        viewModel.insertMeal(meal)
                     }
-                ).show()
+                    show()
+                }
             }
         }
 
