@@ -1,5 +1,6 @@
 package com.example.easyrecipie.activities
 
+import android.content.Intent
 import android.os.Binder
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -34,6 +35,18 @@ class CategoryMealsActivity : AppCompatActivity() {
             binding.tvCategoryCount.text = "Number of Meals :${ mealsList.size.toString() }"
             categoryMealsAdapter.setMealsList(mealsList)
         })
+
+        onItemClick()
+    }
+
+    private fun onItemClick() {
+        categoryMealsAdapter.onItemClick = { meal->
+            val intent = Intent(this,MealActivity::class.java)
+            intent.putExtra(HomeFragment.MEAL_ID,meal.idMeal)
+            intent.putExtra(HomeFragment.MEAL_NAME,meal.strMeal)
+            intent.putExtra(HomeFragment.MEAL_THUMB,meal.strMealThumb)
+            startActivity(intent)
+        }
     }
 
     private fun prepareRecyclerView() {

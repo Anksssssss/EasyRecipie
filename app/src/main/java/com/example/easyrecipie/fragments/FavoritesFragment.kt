@@ -1,6 +1,7 @@
 package com.example.easyrecipie.fragments
 
 import android.content.ClipData.Item
+import android.content.Intent
 import android.os.Binder
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.easyrecipie.R
 import com.example.easyrecipie.activities.MainActivity
+import com.example.easyrecipie.activities.MealActivity
 import com.example.easyrecipie.adapters.FavoritesAdapter
 import com.example.easyrecipie.databinding.FragmentFavoritesBinding
 import com.example.easyrecipie.viewModel.HomeViewModel
@@ -72,6 +74,18 @@ class FavoritesFragment : Fragment(R.layout.fragment_favorites) {
         }
 
         ItemTouchHelper(itemTouchHelper).attachToRecyclerView(binding.rvFavorites)
+
+        onItemClick()
+    }
+
+    private fun onItemClick() {
+        favoriteAdapter.onItemClick = {meal ->
+            val intent = Intent(activity, MealActivity::class.java)
+            intent.putExtra(HomeFragment.MEAL_ID,meal.idMeal)
+            intent.putExtra(HomeFragment.MEAL_NAME,meal.strMeal)
+            intent.putExtra(HomeFragment.MEAL_THUMB,meal.strMealThumb)
+            startActivity(intent)
+        }
     }
 
     private fun prepareRecyclerView() {

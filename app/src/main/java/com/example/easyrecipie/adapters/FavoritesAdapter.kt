@@ -14,6 +14,8 @@ class FavoritesAdapter : RecyclerView.Adapter<FavoritesAdapter.FavoriteViewHolde
 
     inner class FavoriteViewHolder(val binding : MealItemBinding) : RecyclerView.ViewHolder(binding.root)
 
+    lateinit var onItemClick : ((Meal)->Unit)
+
     private var diffUtil = object : DiffUtil.ItemCallback<Meal>(){
         override fun areItemsTheSame(oldItem: Meal, newItem: Meal): Boolean {
             return oldItem.idMeal == newItem.idMeal
@@ -45,5 +47,11 @@ class FavoritesAdapter : RecyclerView.Adapter<FavoritesAdapter.FavoriteViewHolde
             .into(holder.binding.imgMeal)
 
         holder.binding.tvMealName.text = meal.strMeal
+
+        holder.itemView.setOnClickListener {
+            onItemClick.invoke(differ.currentList[position])
+        }
+
+
     }
 }

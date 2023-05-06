@@ -12,6 +12,7 @@ class CategoryMealsAdapter:RecyclerView.Adapter<CategoryMealsAdapter.CategoryMea
     inner class CategoryMealsViewHolder(var binding : MealItemBinding) :RecyclerView.ViewHolder(binding.root)
 
     private var mealList = ArrayList<MealsByCategory>()
+    lateinit var onItemClick:((MealsByCategory)->Unit)
 
     fun setMealsList(mealsList : List<MealsByCategory>){
         this.mealList = mealsList as ArrayList<MealsByCategory>
@@ -34,5 +35,9 @@ class CategoryMealsAdapter:RecyclerView.Adapter<CategoryMealsAdapter.CategoryMea
             .into(holder.binding.imgMeal)
 
         holder.binding.tvMealName.text = mealList[position].strMeal
+
+        holder.itemView.setOnClickListener {
+            onItemClick.invoke(mealList[position])
+        }
     }
 }
