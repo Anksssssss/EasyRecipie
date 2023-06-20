@@ -74,7 +74,7 @@ class MealBottomSheetFragment : BottomSheetDialogFragment() {
                 .load(meal.strMealThumb)
                 .into(binding.imgBottomSheet)
 
-            binding.bottomSheetMealName.text = meal.strMeal
+            binding.tvBottomSheetMealName.text = meal.strMeal
             binding.tvBottomSheetArea.text = meal.strArea
             binding.tvBottomSheetCategory.text = meal.strCategory
             mealName = meal.strMeal

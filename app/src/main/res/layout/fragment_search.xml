@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.SearchFragment">
+
+   <androidx.cardview.widget.CardView
+       android:id="@+id/cv_search_fragment"
+       android:layout_width="@dimen/_220sdp"
+       android:layout_height="@dimen/_40sdp"
+       app:layout_constraintStart_toStartOf="parent"
+       app:layout_constraintEnd_toStartOf="@+id/search_button"
+       app:layout_constraintTop_toTopOf="parent"
+       android:layout_marginStart="@dimen/_10sdp"
+       android:layout_marginTop="@dimen/_10sdp"
+       android:layout_marginBottom="@dimen/_10sdp">
+
+       <EditText
+           android:id="@+id/et_search_fragment"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:background="#c0c0c0"
+           android:drawableLeft="@drawable/ic_search"
+           android:hint="Search Your Fav meals...."
+           android:padding="@dimen/_8sdp"
+           android:singleLine="true"
+           android:textColor="@color/g_black" />
+
+   </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/search_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Search"
+        android:layout_margin="@dimen/_10sdp"
+        app:layout_constraintStart_toEndOf="@+id/cv_search_fragment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_search_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/_10sdp"
+        app:layout_constraintStart_toStartOf="@+id/cv_search_fragment"
+        app:layout_constraintTop_toBottomOf="@+id/cv_search_fragment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

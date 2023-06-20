@@ -1,6 +1,7 @@
 package com.example.easyrecipie.viewModel
 
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,6 +14,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+
 class HomeViewModel(
     private val mealDatabase : MealDatabase
 ):ViewModel() {
@@ -22,6 +24,7 @@ class HomeViewModel(
     private var categoryListLiveData = MutableLiveData<List<Category>>()
     private var favoriteMealsLiveData = mealDatabase.mealDao().getAllMeals()
     private var bottomSheetMealLiveData = MutableLiveData<Meal>()
+    private var searchMealListLiveData = MutableLiveData<List<Meal>?>()
 
     private var saveStateRandomMeal:Meal?=null
 
@@ -92,6 +95,23 @@ class HomeViewModel(
         })
     }
 
+    fun getMealBySearch(searchName :String){
+        RetrofitInstance.api.getMealsBySearch(searchName).enqueue(object :Callback<MealList>{
+            override fun onResponse(call: Call<MealList>, response: Response<MealList>) {
+                val meal = response.body()?.meals?.first()
+                if(meal!=null){
+                    searchMealListLiveData.postValue(listOf(meal))
+                }else{
+                    searchMealListLiveData.postValue(null)
+                }
+            }
+
+            override fun onFailure(call: Call<MealList>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+        })
+    }
+
     fun observeRandomMealLiveData():LiveData<Meal>{
         return randomMealLiveData
     }
@@ -110,6 +130,10 @@ class HomeViewModel(
 
     fun observeGetMealsByIdLiveData():LiveData<Meal>{
         return bottomSheetMealLiveData
+    }
+
+    fun observeMealsBySearchLiveData():LiveData<List<Meal>?>{
+        return searchMealListLiveData
     }
 
     fun deleteMeal(meal:Meal){

@@ -2,6 +2,7 @@ package com.example.easyrecipie.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
@@ -29,5 +30,14 @@ class MainActivity : AppCompatActivity() {
         val navController = Navigation.findNavController(this, R.id.host_fragment)
         NavigationUI.setupWithNavController(binding.btmNav,navController)
 
+    }
+
+    override fun onBackPressed() {
+        val navController = Navigation.findNavController(this, R.id.host_fragment)
+        if (navController.currentDestination?.id == R.id.homeFragment) {
+            super.onBackPressed() // If the current destination is the homeFragment, let the system handle the back press
+        } else {
+            navController.popBackStack() // Otherwise, navigate back to the previous fragment
+        }
     }
 }
